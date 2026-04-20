@@ -349,7 +349,7 @@ app.get("/chains", (req, res) => {
 });
 
 // ── Start ───────────────────────────────────
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("");
   console.log("  ╔══════════════════════════════════════════╗");
   console.log("  ║       Token Risk Scanner — x402          ║");
