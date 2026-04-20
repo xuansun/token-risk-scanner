@@ -344,6 +344,42 @@ app.get("/scan", async (req, res) => {
 
 // ── Free routes (no payment needed) ─────────
 
+app.get("/.well-known/x402", (req, res) => {
+  res.json({
+    endpoints: [
+      {
+        url: "https://token-risk-scanner-production.up.railway.app/scan",
+        method: "GET",
+        price: "$0.003",
+        network: "eip155:8453",
+        description: "Scan any EVM token contract for security risks: honeypots, rug pulls, hidden owners, tax traps. Returns risk score 0-100.",
+      },
+    ],
+  });
+});
+
+app.get("/llms.txt", (req, res) => {
+  res.type("text/plain").send(`# Token Risk Scanner
+> Smart contract security analysis for AI agents via x402 micropayments.
+
+## Endpoint
+GET /scan?address={contract_address}&chain={chain_name}
+
+## Price
+$0.003 USDC per scan on Base (eip155:8453)
+
+## Parameters
+- address (required): EVM token contract address (0x...)
+- chain (optional): base, ethereum, bsc, polygon, arbitrum, avalanche, optimism (default: base)
+
+## Returns
+Risk score (0-100), verdict (LOW_RISK/CAUTION/RISKY/DANGEROUS), specific risk flags, tax analysis, liquidity info.
+
+## Example
+GET /scan?address=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&chain=base
+`);
+});
+
 // Health check
 app.get("/", (req, res) => {
   res.json({
