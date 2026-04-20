@@ -38,7 +38,7 @@ if (!payTo) {
 // ── x402 Setup ──────────────────────────────
 // ── x402 Setup ──────────────────────────────
 const facilitatorClient = new HTTPFacilitatorClient({
-  url: process.env.FACILITATOR_URL || "https://api.cdp.coinbase.com/platform/v2/x402",
+  url: process.env.FACILITATOR_URL || "https://facilitator.xpay.sh",
 });
 const server = new x402ResourceServer(facilitatorClient);
 server.register(network, new ExactEvmScheme());
