@@ -1,0 +1,20 @@
+{
+  "name": "token-risk-scanner",
+  "version": "1.0.0",
+  "description": "x402-powered token risk scanner for AI agents. Checks smart contracts for honeypots, rug pulls, and scam signals.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": ["x402", "token", "security", "scanner", "defi", "honeypot"],
+  "license": "MIT",
+  "dependencies": {
+    "@x402/core": "latest",
+    "@x402/express": "latest",
+    "@x402/evm": "latest",
+    "dotenv": "^16.4.0",
+    "express": "^4.21.0"
+  }
+}
