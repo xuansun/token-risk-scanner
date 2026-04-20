@@ -10,7 +10,7 @@ import { ExactEvmScheme } from "@x402/evm/exact/server";
 import { HTTPFacilitatorClient } from "@x402/core/server";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: '.env' });
 
 const app = express();
 app.use(express.json());
@@ -20,8 +20,15 @@ const payTo = process.env.WALLET_ADDRESS;
 const network = process.env.NETWORK || "eip155:84532";
 const PORT = process.env.PORT || 4021;
 
-if (!payTo) {
+/*if (!payTo) {
   console.error("ERROR: Set WALLET_ADDRESS in your .env file");
+  process.exit(1);
+}*/
+
+console.log("WALLET_ADDRESS from env:", process.env.WALLET_ADDRESS);
+
+if (!payTo) {
+  console.error("ERROR: Set WALLET_ADDRESS in environment variables");
   process.exit(1);
 }
 
