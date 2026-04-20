@@ -8,6 +8,7 @@ import express from "express";
 import { paymentMiddleware, x402ResourceServer } from "@x402/express";
 import { ExactEvmScheme } from "@x402/evm/exact/server";
 import { HTTPFacilitatorClient } from "@x402/core/server";
+import { bazaarResourceServerExtension, declareDiscoveryExtension } from "@x402/extensions/bazaar";
 import dotenv from "dotenv";
 
 dotenv.config({ override: false });
@@ -35,13 +36,9 @@ if (!payTo) {
 }
 
 // ── x402 Setup ──────────────────────────────
-const facilitatorClient = new HTTPFacilitatorClient({
-  url: process.env.FACILITATOR_URL || "https://x402.org/facilitator",
-});
-const server = new x402ResourceServer(facilitatorClient).register(
-  network,
-  new ExactEvmScheme()
-);
+const server = new x402ResourceServer(facilitatorClient);
+server.register(network, new ExactEvmScheme());
+server.registerExtension(bazaarResourceServerExtension);
 
 // ── Chain ID mapping for GoPlus ─────────────
 // GoPlus uses numeric chain IDs
@@ -237,8 +234,31 @@ app.use(
           },
         ],
         description:
-          "Scan a token contract for security risks: honeypots, rug pulls, hidden owners, tax traps, and more. Returns a risk score (0-100), verdict, and detailed findings.",
+          "Scan any EVM token contract for security risks. Returns risk score (0-100), verdict, honeypot detection, tax analysis, ownership flags, and liquidity info. Supports Base, Ethereum, BSC, Polygon, Arbitrum, and 10+ chains.",
         mimeType: "application/json",
+        extensions: {
+          ...declareDiscoveryExtension({
+            input: { address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", chain: "base" },
+            inputSchema: {
+              properties: {
+                address: { type: "string", description: "EVM token contract address (0x...)" },
+                chain: { type: "string", description: "Chain name or ID: base, ethereum, bsc, polygon, arbitrum, avalanche, optimism, fantom, linea, scroll, zksync" },
+              },
+              required: ["address"],
+            },
+            output: {
+              example: {
+                token_name: "USD Coin",
+                token_symbol: "USDC",
+                risk_score: 0,
+                verdict: "LOW_RISK",
+                tax: { buy_tax_percent: 0, sell_tax_percent: 0 },
+                risks: [],
+                positives: ["Contract is verified and open-source", "Not a honeypot", "No mint function"],
+              },
+            },
+          }),
+        },
       },
     },
     server

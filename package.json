@@ -8,12 +8,20 @@
     "start": "node index.js",
     "dev": "node --watch index.js"
   },
-  "keywords": ["x402", "token", "security", "scanner", "defi", "honeypot"],
+  "keywords": [
+    "x402",
+    "token",
+    "security",
+    "scanner",
+    "defi",
+    "honeypot"
+  ],
   "license": "MIT",
   "dependencies": {
     "@x402/core": "latest",
-    "@x402/express": "latest",
     "@x402/evm": "latest",
+    "@x402/express": "latest",
+    "@x402/extensions": "^2.10.0",
     "dotenv": "^16.4.0",
     "express": "^4.21.0"
   }
