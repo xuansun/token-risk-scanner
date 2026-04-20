@@ -10,7 +10,7 @@ import { ExactEvmScheme } from "@x402/evm/exact/server";
 import { HTTPFacilitatorClient } from "@x402/core/server";
 import dotenv from "dotenv";
 
-dotenv.config({ path: '.env' });
+dotenv.config({ override: false });
 
 const app = express();
 app.use(express.json());
