@@ -18,7 +18,7 @@ app.use(express.json());
 
 // ── Config ──────────────────────────────────
 const payTo = process.env.WALLET_ADDRESS || "0xf296E3789F98C87003328F7047D010eFDc02eCdd";
-const network = process.env.NETWORK || "eip155:84532";
+const network = process.env.NETWORK || "eip155:8453";
 const PORT = process.env.PORT || 4021;
 
 console.log("Starting with PORT:", PORT);
